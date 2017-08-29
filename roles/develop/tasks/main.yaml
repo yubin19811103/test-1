@@ -1,23 +1,27 @@
 ---
 
+# 微服务部署
 # 备份
 - name: backup {{ wm_project }}
   remote_user: waming
   become: yes
   become_user: root
   command: "cp -a {{ wm_project_path }}/{{ wm_project }} {{ wm_project_path }}/{{ wm_project }}-backup"
+  when: 'wm_project != "weather-web.war"'
 
 # 删除老的lib
 - name: delete {{ wm_project }}
   file:
     dest: "{{ wm_project_path }}/{{ wm_project }}/lib"
     state: absent
+  when: 'wm_project != "weather-web.war"'
 
 # 解压到远端服务器
 - name: Unarchive {{ wm_project }}
   unarchive:
     src: "{{ wm_package_path }}/{{ wm_package }}"
     dest: "{{ wm_project_path }}"
+  when: 'wm_project != "weather-web.war"'
 
 # 重启服务
 - name: restart {{ wm_project }}
@@ -26,7 +30,27 @@
     chdir: "{{ wm_project_path }}/{{ wm_project }}/bin/"
   async: 30
   poll: 1
+  when: 'wm_project != "weather-web.war"'
 
+# web部署
+- name: backup {{ wm_project }}
+  remote_user: waming
+  become: yes
+  become_user: root
+  command: "cp -a {{ wm_project_path }}/{{ wm_project }} /app/yubin/"
+  when: 'wm_project == "weather-web.war"'
+
+- name: copy {{ wm_project }}
+  remote_user: waming
+  become: yes
+  become_user: root
+  copy:
+    src: "{{ wm_package_path }}/{{ wm_package }}"
+    dest: "{{ wm_project_path }}"
+    backup: yes
+  when: 'wm_project == "weather-web.war"'
+
+# 检查端口
 - name: check {{ wm_project }} port is opened
   wait_for:
     host: "{{ groups['wm'][0] }}"

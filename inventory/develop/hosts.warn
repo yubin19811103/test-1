@@ -7,3 +7,4 @@ wm_package=weather-warn-package.zip
 wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-warn/target
 wm_project=weather-warn
 wm_project_path=/app/service
+wm_project_port=8084

@@ -7,3 +7,4 @@ wm_package=weather-webservice-package.zip
 wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-webservice/target
 wm_project=weather-webservice
 wm_project_path=/home/waming
+wm_project_port=8082

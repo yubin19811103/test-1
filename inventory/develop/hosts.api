@@ -1,5 +1,5 @@
-[wm]
-192.168.0.61
+[wm:children]
+api
 
 [wm:vars]
 ansible_ssh_user=waming
@@ -8,3 +8,6 @@ wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspac
 wm_project=weather-api
 wm_project_path=/app/service
 wm_project_port=8085
+
+[api]
+192.168.0.61
