@@ -1,2 +1,1 @@
-# test
-add new line
+# 练习ansible的一个项目

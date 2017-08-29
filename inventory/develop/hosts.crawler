@@ -1,0 +1,10 @@
+[wm]
+192.168.0.61
+
+[wm:vars]
+ansible_ssh_user=waming
+wm_package=weather-crawler-package.zip
+wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-crawler/target
+wm_project=weather-crawler
+wm_project_path=/app/service
+wm_project_port=8083

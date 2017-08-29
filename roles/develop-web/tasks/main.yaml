@@ -1,0 +1,15 @@
+---
+
+# 备份
+- name: backup {{ wm_project }}
+  remote_user: waming
+  become: yes
+  become_user: root
+  command: "cp -a {{ wm_project_path }}/{{ wm_project }} /app/yubin/"
+
+# 拷贝war包到远端服务器
+- name: copy {{ wm_project }}
+  copy:
+    src: "{{ wm_package_path }}/{{ wm_package }}"
+    dest: "{{ wm_project_path }}"
+    # backup: yes

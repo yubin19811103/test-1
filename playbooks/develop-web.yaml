@@ -1,0 +1,6 @@
+---
+
+- name: develop deploy 
+  hosts: all
+  roles:
+  - develop-web 
