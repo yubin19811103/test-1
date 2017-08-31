@@ -1,0 +1,10 @@
+[wm]
+192.168.4.93
+
+[wm:vars]
+ansible_ssh_user=waming
+wm_package=weather-syndata-package.zip
+wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-syndata/target
+wm_project=weather-syndata
+wm_project_path=/app/service
+wm_project_port=8089
