@@ -1,0 +1,25 @@
+---
+
+- name: yum install package
+  become: yes
+  become_user: root
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+      - "{{ yum_list }}"
+
+- name: copy nginx_tar_gz to client
+  copy: 
+    src: nginx-1.10.3.tar.gz 
+    dest: /tmp/nginx-1.10.3.tar.gz
+
+- name: copy install_shell to client
+  copy: 
+    src: install_nginx.sh 
+    dest: /tmp/install_nginx.sh
+
+- name: install nginx
+  become: yes
+  become_user: root
+  shell: /bin/bash /tmp/install_nginx.sh
