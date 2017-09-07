@@ -1,0 +1,8 @@
+---
+
+- name: restart nginx
+  service: name=nginx state=restarted 
+  #pattern: /home/waming/nginx/sbin/nginx
+
+- name: reload nginx
+  service: name=nginx state=reloaded

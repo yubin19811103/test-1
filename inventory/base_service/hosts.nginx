@@ -3,6 +3,8 @@
 
 [wm:vars]
 ansible_ssh_user=waming
-tomcat1_ip=192.168.4.231
-tomcat2_ip=192.168.4.221
+nginx_port=8090
+tomcat1_ip=192.168.4.111
+tomcat2_ip=192.168.4.222
 yum_list=["zlib","zlib-devel","openssl","openssl-devel","pcre-devel"]
+nginx_path=/home/waming/nginx
