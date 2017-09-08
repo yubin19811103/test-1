@@ -1,0 +1,58 @@
+---
+
+- name: check the service port is opened
+  wait_for:
+    host: "{{ groups['wm'][0] }}"
+    port: "{{ item }}"
+    timeout: 5
+  delegate_to: 127.0.0.1
+  ignore_errors: True
+  run_once: true
+  register: tomcat_running
+  with_items:
+    - "{{ tomcat_port }}"
+
+- name: copy jdk-8u45-linux-x64.rpm to client
+  copy:
+    src: jdk-8u45-linux-x64.rpm
+    dest: /tmp/jdk-8u45-linux-x64.rpm
+
+- name: install jdk rpm from a local file
+  become: yes
+  become_user: root
+  yum:
+    name: /tmp/jdk-8u45-linux-x64.rpm
+    state: present
+
+- name: copy tomcat8.tar.gz to client
+  copy:
+    src: tomcat8.tar.gz
+    dest: /tmp/tomcat8.tar.gz
+
+- name: Unarchive tomcat
+  unarchive:
+    src: /tmp/tomcat8.tar.gz
+    dest: /tmp
+    remote_src: True
+
+- name: copy tomcat
+  command: "cp -a /tmp/tomcat {{ tomcat_path }}/tomcat{{ item }}"
+  with_items:
+    - "{{ tomcat_port }}"
+
+- name: create server.xml file
+  # become: yes
+  # become_user: root
+  template:
+    src: server.xml.j2
+    dest: "{{ tomcat_path }}/tomcat{{ item[1] }}/conf/server.xml"
+    mode: 0600
+    backup: yes
+  with_together:
+    - "{{ tomcat_shutdown_port }}"
+    - "{{ tomcat_port }}"
+    - "{{ tomcat_ajp_port }}"
+  notify:
+    - stop tomcat
+    - start tomcat
+

@@ -1,0 +1,17 @@
+---
+
+- name: stop tomcat
+  command: "{{ tomcat_path }}/tomcat{{ item }}/bin/shutdown.sh"
+  async: 30
+  poll: 1
+  with_items:
+    - "{{ tomcat_port }}"
+
+- name: start tomcat
+  #become: yes
+  #become_user: root
+  command: "{{ tomcat_path }}/tomcat{{ item }}/bin/startup.sh"
+  async: 30
+  poll: 1
+  with_items:
+    - "{{ tomcat_port }}"

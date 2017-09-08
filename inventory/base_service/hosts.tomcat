@@ -1,0 +1,9 @@
+[wm]
+192.168.4.221
+
+[wm:vars]
+ansible_ssh_user=waming
+tomcat_port=['8080','8081']
+tomcat_shutdown_port=['8005','8006']
+tomcat_ajp_port=['8009','8010']
+tomcat_path=/home/waming
