@@ -1,0 +1,18 @@
+[wm:children]
+redis_master
+redis_slave
+
+[wm:vars]
+ansible_ssh_user=waming
+redis_pidfile=/var/run/redis.pid
+redis_logfile=/u01/redis/logs/redis.log
+redis_dir=/u01/redis/data
+redis_master_port=7000
+redis_slave_port=7001
+
+[redis_master]
+192.168.4.231 replication=master
+
+[redis_slave]
+192.168.4.234 replication=slave
+

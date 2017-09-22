@@ -1,0 +1,47 @@
+---
+
+# 数据汇集平台部署
+# 备份
+- name: backup wmdcm
+  become: yes
+  become_user: root
+  command: "cp -a /opt/wmdcm /opt/backup/" 
+
+- name: backup time wmdcm
+  become: yes
+  become_user: root
+  shell: "mv /opt/backup/wmdcm /opt/backup/wmdcm-{{ backup_time }}"
+
+# 拷贝jar包到部署端
+- name: copy wmdcm
+  become: yes
+  become_user: root
+  copy:
+    src: "{{ item[0] }}/{{ item[1] }}"
+    dest: "{{ item[2] }}"
+    force: yes
+  with_together:
+    - "{{ wm_package_path }}"
+    - "{{ wm_package }}"
+    - "{{ wm_project_path }}"
+
+# 重启服务
+- name: restart wmdcm
+  become: yes
+  become_user: root
+  shell: /bin/bash restart_dcm.sh
+  args:
+    chdir: "/opt/wmdcm"
+  async: 60
+  poll: 1
+  ignore_errors: True
+
+# 检查端口
+- name: check {{ wm_project }} port is opened
+  wait_for:
+    host: "{{ groups['wm'][0] }}"
+    port: "{{ item }}"
+    timeout: 30
+  # ignore_errors: True
+  with_items:
+    - "{{ wm_project_port }}"

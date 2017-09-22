@@ -11,6 +11,8 @@
 
 # 删除老的lib
 - name: delete {{ wm_project }}
+  become: yes
+  become_user: root
   file:
     dest: "{{ wm_project_path }}/{{ wm_project }}/lib"
     state: absent
@@ -74,4 +76,4 @@
     host: "{{ groups['wm'][0] }}"
     port: "{{ wm_project_port }}"
     timeout: 30
-  ignore_errors: True
+  # ignore_errors: True

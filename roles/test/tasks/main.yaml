@@ -1,0 +1,12 @@
+---
+
+- name: Getthe all vars
+  become: yes
+  become_user: root
+  shell: "cat /root/.mysql_secret |awk -F ': ' '{print $2}'"
+  register: return_value
+
+- name: echo {{ return_value.stdout }}
+  become: yes
+  become_user: root
+  shell: "echo {{ return_value }}"

@@ -1,0 +1,66 @@
+---
+
+- name: copy redis_package to client
+  copy:
+    src: redis-3.2.8.tar.gz
+    dest: /tmp/redis-3.2.8.tar.gz
+
+- name: mkdir u01
+  become: yes
+  become_user: root
+  file:
+    path: /u01
+    state: directory
+    mode: 0755
+
+- name: Unarchive redis
+  unarchive:
+    src: /tmp/redis-3.2.8.tar.gz
+    dest: /tmp
+    remote_src: True
+
+- name: install redis 
+  become: yes
+  become_user: root
+  shell: "make && make PREFIX=/u01/redis install"
+  args:
+    chdir: "/tmp/redis-3.2.8"
+
+- name: mkdir conf logs data
+  become: yes
+  become_user: root
+  file:
+    path: "/u01/redis/{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - ["conf","logs","data"]
+
+#- name: mkdir logs
+#  become: yes
+#  become_user: root
+#  file:
+#    path: /u01/redis/logs
+#    state: directory
+#    mode: 0755
+
+#- name: mkdir logs data
+#  become: yes
+#  become_user: root
+#  file:
+#    path: /u01/redis/data
+#    state: directory
+#    mode: 0755
+
+- name: create redis.conf file
+  become: yes
+  become_user: root
+  template:
+    src: redis.conf.j2
+    dest: "/u01/redis/conf/redis.conf"
+    mode: 0644
+    backup: yes
+  notify:
+    - stop redis
+    - start redis
+

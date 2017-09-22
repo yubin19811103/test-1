@@ -1,0 +1,6 @@
+---
+
+- name: redis install 
+  hosts: all
+  roles:
+  - redis

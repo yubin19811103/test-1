@@ -1,0 +1,12 @@
+---
+
+- name: stop redis
+  become: yes
+  become_user: root
+  shell: "ps -ef | grep redis|grep -v grep|awk '{print $2}'|xargs kill -9"
+  ignore_errors: True
+
+- name: start redis
+  become: yes
+  become_user: root
+  command: "/u01/redis/bin/redis-server /u01/redis/conf/redis.conf"
