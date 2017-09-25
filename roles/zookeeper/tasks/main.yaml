@@ -1,0 +1,48 @@
+---
+
+
+- name: copy zookeeper.tar.gz to client
+  copy:
+    src: zookeeper.tar.gz
+    dest: /tmp/zookeeper.tar.gz
+
+- name: mkdir u01
+  become: yes
+  become_user: root
+  file:
+    path: /u01
+    state: directory
+    mode: 0755
+
+- name: Unarchive zookeeper
+  become: yes
+  become_user: root
+  unarchive:
+    src: /tmp/zookeeper.tar.gz
+    dest: /u01
+    remote_src: True
+
+- name: init zookeeper path
+  become: yes
+  become_user: root
+  lineinfile:
+    path:  /etc/profile
+    line: 'PATH=$PATH:/u01/zookeeper/bin'
+
+- name: create node_id file
+  template:
+    src: myid.j2 
+    dest: "{{ zk_path }}/data/myid"
+    mode: 0644
+    backup: yes
+
+- name: create zoo.cfg file
+  # become: yes
+  # become_user: root
+  template:
+    src: zoo.cfg.j2
+    dest: "{{ zk_path }}/conf/zoo.cfg"
+    mode: 0644
+    backup: yes
+  notify:
+    - restart zookeeper

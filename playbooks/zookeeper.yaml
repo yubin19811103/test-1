@@ -1,0 +1,11 @@
+---
+
+- name: Init server
+  hosts: all
+  roles:
+  - common
+
+- name: zookeeper install 
+  hosts: all
+  roles:
+  - zookeeper

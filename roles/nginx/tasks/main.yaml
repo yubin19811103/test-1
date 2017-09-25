@@ -37,19 +37,19 @@
     dest: /tmp/
     remote_src: True
 
-#- name: configure nginx
-#  become: yes
-#  become_user: root
-#  command: "./configure --prefix={{ nginx_path }} --user=nginx --group=nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre" 
-#  args:
-#    chdir: /tmp/nginx-1.10.3/
+- name: configure nginx
+  become: yes
+  become_user: root
+  command: "./configure --prefix={{ nginx_path }} --user=nginx --group=nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre" 
+  args:
+    chdir: /tmp/nginx-1.10.3/
 
-#- name: make nginx
-#  become: yes
-#  become_user: root
-#  shell: make && make install
-#  args:
-#    chdir: /tmp/nginx-1.10.3/
+- name: make nginx
+  become: yes
+  become_user: root
+  shell: make && make install
+  args:
+    chdir: /tmp/nginx-1.10.3/
 
 - name: create nginx.service file
   become: yes

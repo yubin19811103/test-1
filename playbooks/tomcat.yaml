@@ -1,5 +1,10 @@
 ---
 
+- name: Init server
+  hosts: all
+  roles:
+  - common
+
 - name: tomcat install 
   hosts: all
   roles:

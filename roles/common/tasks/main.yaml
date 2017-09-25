@@ -1,0 +1,14 @@
+---
+
+
+- name: copy jdk-8u45-linux-x64.rpm to client
+  copy:
+    src: jdk-8u45-linux-x64.rpm
+    dest: /tmp/jdk-8u45-linux-x64.rpm
+
+- name: install jdk rpm from a local file
+  become: yes
+  become_user: root
+  yum:
+    name: /tmp/jdk-8u45-linux-x64.rpm
+    state: present

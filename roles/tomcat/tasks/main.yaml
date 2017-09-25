@@ -1,28 +1,5 @@
 ---
 
-- name: check the service port is opened
-  wait_for:
-    host: "{{ groups['wm'][0] }}"
-    port: "{{ item }}"
-    timeout: 5
-  delegate_to: 127.0.0.1
-  ignore_errors: True
-  run_once: true
-  register: tomcat_running
-  with_items:
-    - "{{ tomcat_port }}"
-
-- name: copy jdk-8u45-linux-x64.rpm to client
-  copy:
-    src: jdk-8u45-linux-x64.rpm
-    dest: /tmp/jdk-8u45-linux-x64.rpm
-
-- name: install jdk rpm from a local file
-  become: yes
-  become_user: root
-  yum:
-    name: /tmp/jdk-8u45-linux-x64.rpm
-    state: present
 
 - name: copy tomcat8.tar.gz to client
   copy:

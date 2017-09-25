@@ -1,0 +1,12 @@
+[wm]
+192.168.4.234 node_id=1
+192.168.4.89 node_id=2
+192.168.4.224  node_id=3
+
+[wm:vars]
+ansible_ssh_user=waming
+clientPort=2181
+info_port=28881
+elect_port=28882
+zk_path=/u01/zookeeper
+
