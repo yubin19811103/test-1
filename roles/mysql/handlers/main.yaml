@@ -1,0 +1,8 @@
+---
+
+- name: restart mysql
+  become: yes
+  become_user: root
+  command: /etc/init.d/mysql restart 
+  async: 60
+  poll: 1

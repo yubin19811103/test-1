@@ -1,0 +1,16 @@
+[mysql]
+192.168.4.221 replication=master
+192.168.4.231 replication=slave
+
+[mysql:vars]
+ansible_ssh_user=waming
+master_ip=192.168.4.221
+slave_ip=192.168.4.231
+mysql_pass=waming@2030
+mysql_port=3306
+mysql_data_dir=/u01/mysql/data
+mysql_rpm=["MySQL-devel-5.6.37-1.el7.x86_64.rpm", "MySQL-server-5.6.37-1.el7.x86_64.rpm", "MySQL-client-5.6.37-1.el7.x86_64.rpm","MySQL-shared-5.6.37-1.el7.x86_64.rpm"]
+
+rep_name=rep
+rep_pass=123456
+

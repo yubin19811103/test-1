@@ -10,3 +10,21 @@
   become: yes
   become_user: root
   shell: "echo {{ return_value }}"
+
+- name: check binlog Position
+  become: yes
+  become_user: root
+  command: "echo nihao"
+  register: echo1
+  when: replication == "master"
+
+- name: abcd {{ echo1.stdout }}
+  set_fact:
+    echo11: "{{ echo1.stdout }}"
+  when: replication == "master"
+
+- name: test hostvars
+  debug: var=hostvars['192.168.4.221']
+
+- name: echo {{ echo11 }}
+  shell: echo "{{ hostvars['192.168.4.221']['echo11'] }}"

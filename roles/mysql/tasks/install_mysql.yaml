@@ -1,0 +1,46 @@
+---
+
+
+- name: removed mariadb-libs rpm from a local file
+  become: yes
+  become_user: root
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: copy mysql.rpm to client
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_fileglob:
+    - files/*
+
+- name: install mysql rpm from a local file
+  become: yes
+  become_user: root
+  yum:
+    name: "/tmp/{{ item }}"
+    state: present
+  with_items:
+    - "{{ mysql_rpm }}"
+
+- name: mkdir mysql_data dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ mysql_data_dir }}" 
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0755
+
+- name: create mysql_conf file
+  become: yes
+  become_user: root
+  template:
+    src: my.cnf.j2
+    dest: "/etc/my.cnf"
+    mode: 0664
+    backup: yes
+  #notify:
+  #  - restart mysql

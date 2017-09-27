@@ -1,0 +1,51 @@
+---
+
+
+- name: check the service port is opened
+  wait_for:
+    host: "{{ item }}"
+    port: "{{ mysql_port }}"
+    timeout: 5
+  delegate_to: 127.0.0.1
+  ignore_errors: True
+  run_once: true
+  register: mysql_running
+  with_items:
+    - "{{ groups.mysql }}"
+
+- name: install mysql
+  include: "install_mysql.yaml"
+  when: mysql_running | failed
+
+- name: init mysql_server
+  become: yes
+  become_user: root
+  command: mysql_install_db --user=mysql
+  async: 100
+  poll: 1
+  when: mysql_running | failed
+
+- name: start mysql_server
+  become: yes
+  become_user: root
+  command: /etc/init.d/mysql start
+  async: 60
+  poll: 1
+  when: mysql_running | failed
+
+#- name: check mysql password
+#  become: yes
+#  become_user: root
+#  shell: "cat ~/.mysql_secret |awk -F': ' '{print $2}'"
+#  register: mysql_pass
+#  when: mysql_running| failed
+
+- name: update mysql password
+  become: yes
+  become_user: root
+  shell: "mysqladmin password '{{ mysql_pass }}'"
+  when: mysql_running| failed
+
+- name: init mysql replication
+  include: "replication_mysql.yaml"
+  when: groups.mysql | length > 1 and mysql_running | failed

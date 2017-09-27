@@ -1,0 +1,76 @@
+[mysqld]
+
+datadir = /u01/mysql/data
+socket = /u01/mysql/mysql.sock
+port = 3306
+
+default-storage-engine = innodb
+init-connect='SET NAMES utf8'
+
+innodb_buffer_pool_size=2G
+innodb_log_file_size=2G
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit=2
+innodb_file_per_table=1
+innodb_file_io_threads=4
+innodb_flush_method=O_DIRECT
+innodb_io_capacity=2000
+innodb_io_capacity_max=6000
+innodb_lru_scan_depth=2000
+innodb_thread_concurrency = 8
+innodb_additional_mem_pool_size=16M
+innodb_autoinc_lock_mode = 2
+
+{% if replication == "master" %}
+server-id = 1
+{% elif replication == "slave" %}
+server-id = 2
+{% endif %}
+log_bin = mysql-bin
+relay-log = mysql-relay
+log_slave_updates = 1
+binlog-ignore-db = mysql,information_schema
+binlog-do-db=weatherweb
+binlog_format = mixed
+auto-increment-increment = 2
+auto-increment-offset = 2
+
+master-info-repository=TABLE
+expire_logs_days=7
+transaction-isolation=READ-COMMITTED
+log_bin_trust_function_creators=1
+tmp_table_size=512M
+character-set-server=utf8
+collation-server=utf8_general_ci
+skip-external-locking
+back_log=1024
+key_buffer_size=2048M
+thread_stack=256k
+read_buffer_size=8M
+thread_cache_size=64
+query_cache_size=128M
+max_heap_table_size=256M
+query_cache_type=1
+binlog_cache_size = 2M
+table_open_cache=128
+thread_cache=1024
+thread_concurrency=8
+wait_timeout=30
+join_buffer_size = 1024M
+sort_buffer_size = 8M
+read_rnd_buffer_size = 8M
+
+max-connect-errors=100000
+max-connections=1000
+
+
+tmp_table_size=512M
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+explicit_defaults_for_timestamp=true
+
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+ 
+[client]
+socket = /u01/mysql/mysql.sock

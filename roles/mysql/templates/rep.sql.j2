@@ -1,0 +1,6 @@
+change master to 
+master_host='{{ master_ip }}',
+master_user='{{ rep_name }}',
+master_password='{{ rep_pass }}',
+master_log_file='{{ hostvars['192.168.4.221']['binlog_file'] }}',
+master_log_pos={{ hostvars['192.168.4.221']['binlog_position'] }};

@@ -1,0 +1,49 @@
+---
+
+
+- name: create rep user {{ rep_name }},{{ rep_pass }}
+  become: yes
+  become_user: root
+  shell: "mysql -uroot -p{{ mysql_pass }} -e \"GRANT REPLICATION SLAVE ON *.* to '{{ rep_name }}'@'%' identified by '{{ rep_pass }}';\"" 
+  when: replication == "master"
+
+- name: check binlog File
+  become: yes
+  become_user: root
+  shell: "mysql -uroot -p{{ mysql_pass }} -e 'show master status;'|grep mysql-bin|awk '{print $1}'"
+  register: binlog_file
+  when: replication == "master"
+
+- name: check binlog Position
+  become: yes
+  become_user: root
+  shell: "mysql -uroot -p{{ mysql_pass }} -e 'show master status;'|grep mysql-bin|awk '{print $2}'"
+  register: binlog_position
+  when: replication == "master"
+
+- name: Registered variable
+  set_fact:
+    binlog_file: "{{ binlog_file.stdout }}"
+    binlog_position: "{{ binlog_position.stdout }}"
+  when: replication == "master"
+
+- name: copy replication sql file
+  become: yes
+  become_user: root
+  template:
+    src: rep.sql.j2
+    dest: "/tmp/rep.sql"
+    mode: 0644
+  when: replication == "slave"
+
+- name: init mysql replication
+  become: yes
+  become_user: root
+  shell: "mysql -uroot -p{{ mysql_pass }} < /tmp/rep.sql"
+  when: replication == "slave"
+
+- name: start mysql replication
+  become: yes
+  become_user: root
+  shell: "mysql -uroot -p{{ mysql_pass }} -e 'start slave;'"
+  when: replication == "slave"
