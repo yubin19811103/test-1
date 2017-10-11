@@ -32,7 +32,7 @@
   shell: /bin/bash restart_dcm.sh
   args:
     chdir: "/opt/wmdcm"
-  async: 60
+  async: 120
   poll: 1
   ignore_errors: True
 

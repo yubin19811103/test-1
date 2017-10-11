@@ -1,0 +1,6 @@
+---
+
+- name: common install 
+  hosts: all
+  roles:
+  - common

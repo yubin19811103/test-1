@@ -1,0 +1,6 @@
+---
+
+- name: zabbix_agentd install 
+  hosts: all
+  roles:
+  - zabbix_agentd

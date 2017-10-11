@@ -26,5 +26,5 @@
 - name: test hostvars
   debug: var=hostvars['192.168.4.221']
 
-- name: echo {{ echo11 }}
-  shell: echo "{{ hostvars['192.168.4.221']['echo11'] }}"
+- name: test {{ ansible_default_ipv4.address }}
+  shell: echo "{{ ansible_default_ipv4.address }}"

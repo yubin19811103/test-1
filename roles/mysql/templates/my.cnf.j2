@@ -1,8 +1,8 @@
 [mysqld]
 
-datadir = /u01/mysql/data
-socket = /u01/mysql/mysql.sock
-port = 3306
+datadir = {{ mysql_data_dir }}
+socket = {{ mysql_dir }}/mysql.sock
+port = {{ mysql_port }}
 
 default-storage-engine = innodb
 init-connect='SET NAMES utf8'
@@ -73,4 +73,4 @@ explicit_defaults_for_timestamp=true
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
  
 [client]
-socket = /u01/mysql/mysql.sock
+socket = {{ mysql_dir }}/mysql.sock

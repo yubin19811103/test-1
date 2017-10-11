@@ -1,0 +1,17 @@
+[fastdfs]
+192.168.0.103
+
+[fastdfs:vars]
+ansible_ssh_user=waming
+tracker_server=192.168.0.103
+tracker_port=22122
+tracker_http_server_port=80
+
+storage_port=23000
+storage_path=/u01/fastdfs
+storage_http_server_port=9999
+
+base_path=/u01/fastdfs
+nginx_port=80
+yum_list=["gcc", "zlib", "zlib-devel", "openssl", "openssl-devel", "pcre-devel"]
+nginx_path=/usr/local/nginx

@@ -1,0 +1,6 @@
+---
+
+- name: fastdfs install 
+  hosts: all
+  roles:
+  - fastdfs 

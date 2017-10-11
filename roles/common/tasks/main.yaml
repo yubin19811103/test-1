@@ -1,6 +1,12 @@
 ---
 
 
+- name: stop firewalld.service
+  become: yes
+  become_user: root
+  shell: systemctl stop firewalld.service
+  ignore_errors: True
+
 - name: copy jdk-8u45-linux-x64.rpm to client
   copy:
     src: jdk-8u45-linux-x64.rpm
@@ -12,3 +18,13 @@
   yum:
     name: /tmp/jdk-8u45-linux-x64.rpm
     state: present
+
+- name: copy init_user.sh to client
+  copy:
+    src: init_user.sh
+    dest: /tmp/init_user.sh
+
+- name: init server
+  become: yes
+  become_user: root
+  shell: sh /tmp/init_user.sh

@@ -77,3 +77,4 @@
     port: "{{ wm_project_port }}"
     timeout: 30
   # ignore_errors: True
+  when: 'wm_project != "weather-python"'

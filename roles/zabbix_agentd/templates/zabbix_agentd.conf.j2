@@ -1,0 +1,25 @@
+EnableRemoteCommands=1
+LogRemoteCommands=1
+ListenPort=10050
+ListenIP=0.0.0.0
+StartAgents=10
+Timeout=30
+AllowRoot=1
+LogFile=/tmp/zabbix_agentd.log
+Server=10.0.0.253
+ServerActive=127.0.0.1
+Hostname=Zabbix server
+Include=/usr/local/zabbix/etc/zabbix_agentd.conf.d/
+UnsafeUserParameters=1
+## JVM
+##UserParameter=jmx.jvm.discovery,python /usr/local/zabbix/share/zabbix/alertscripts/jvm.py --list
+##UserParameter=jmx.jvm.item[*],/usr/bin/python /usr/local/zabbix/share/zabbix/alertscripts/jvm.py -b $1 -k $2 -p $3
+##UserParameter=jmx.item[*],/home/waming/software/jdk1.8.0_11/bin/java -jar /usr/local/zabbix/share/zabbix/alertscripts/cmdline-jmxclient-0.10.3.jar - 127.0.0.1:$3 $1 $2 $4 2>&1|cut -d " " -f6
+##UserParameter=chk_jvm[*],/usr/bin/python /usr/local/zabbix/share/zabbix/alertscripts/chk_jvm.py -b $1 -k $2 -p $3
+##UserParameter=jvm.item[*],/home/waming/software/jdk1.8.0_11/bin/java -jar /usr/local/zabbix/share/zabbix/alertscripts/cmdline-jmxclient-0.10.3.jar - 127.0.0.1:$3 $1 $2 2>&1|grep $4|cut -d " " -f2
+##UserParameter=java_mem[*],/home/waming/software/jdk1.8.0_11/bin/java -jar /home/waming/cmdline-jmxclient-0.10.3.jar - 127.0.0.1:$1 java.lang:type=Memory HeapMemoryUsage 2>&1|grep $2|cut -d " " -f2
+##UserParameter=java_session[*],/home/waming/software/jdk1.8.0_11/bin/java -jar /home/waming/cmdline-jmxclient-0.10.3.jar - 127.0.0.1:$1 Catalina:type=Manager,context=/,host=localhost $2 2>&1|cut -d " " -f6
+##
+#### Tomcat
+##UserParameter=jmx.tomcat.discovery,python /usr/local/zabbix/share/zabbix/alertscripts/tomcat.py --list
+##UserParameter=jmx.tomcat.item[*],python /usr/local/zabbix/share/zabbix/alertscripts/tomcat.py -b $1 -k $2 -p $3
