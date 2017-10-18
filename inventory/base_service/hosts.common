@@ -1,5 +1,5 @@
 [common]
-192.168.5.222
+192.168.5.95
 
 [common:vars]
 ansible_ssh_user=root

@@ -1,0 +1,31 @@
+---
+
+
+- name: install wm-test-api
+  include: "wm_test_api.yaml"
+  when: 'wm_project == "weather-api"'
+
+- name: install wm-test-crawler
+  include: "wm_test_crawler.yaml"
+  when: 'wm_project == "weather-crawler"'
+
+- name: install wm-test-web
+  include: "wm_test_web.yaml"
+  when: 'wm_project == "weather-web.war"'
+
+- name: install wm-test-warn
+  include: "wm_test_warn.yaml"
+  when: 'wm_project == "weather-warn"'
+
+- name: install wm-test-syndata
+  include: "wm_test_syndata.yaml"
+  when: 'wm_project == "weather-syndata"'
+
+- name: install wm-test-scheduler
+  include: "wm_test_scheduler.yaml"
+  #when: 'wm_project_all == "weather-scheduler"'
+  when: '"job-datawarn" in wm_project'
+
+- name: install wm-test-scheduler
+  include: "wm_test_wmdcm.yaml"
+  when: '"wmdcm-db.jar" in wm_project'

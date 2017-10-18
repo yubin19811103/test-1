@@ -1,0 +1,82 @@
+---
+
+
+# 微服务部署
+# 备份
+- name: mkdir backup scheduler dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ wm_project_path }}/backup"
+    state: directory
+    owner: waming
+    group: waming
+    mode: 0755
+
+- name: backup scheduler
+  remote_user: waming
+  command: "cp -a {{ wm_project_path }}/{{ item }} {{ wm_project_path }}/backup"
+  with_items:
+    - "{{ wm_project }}"
+  register: result
+  ignore_errors: True
+  
+- name: backup time
+  remote_user: waming
+  shell: "cp -a {{ wm_project_path }}/backup/{{ item }} {{ wm_project_path }}/backup/{{ item }}{{ backup_time }}"
+  with_items:
+    - "{{ wm_project }}"
+  when: result | succeeded
+
+# 首次部署console
+- name: Unarchive console
+  unarchive:
+    src: "{{ console }}"
+    dest: "{{ wm_project_path }}"
+    creates: "{{ wm_project_path }}/wm-job-console"
+
+- name: check console port is opened
+  wait_for:
+    host: "{{ groups['scheduler'][0] }}"
+    port: 8899
+    timeout: 5
+  delegate_to: 127.0.0.1
+  ignore_errors: True
+  run_once: true
+  register: console_running
+
+- name: start console
+  shell: "/bin/bash start.sh &"
+  args:
+    chdir: "{{ wm_project_path }}/wm-job-console/bin"
+  async: 60
+  poll: 1
+  when: console_running | failed
+
+# 删除老的service
+- name: delete scheduler
+  file:
+    dest: "{{ wm_project_path }}/{{ item }}"
+    state: absent
+  with_items:
+    - "{{ wm_project }}"
+
+# 解压到远端服务器
+- name: Unarchive scheduler
+  unarchive:
+    src: "{{ item[0] }}/{{ item[1] }}"
+    dest: "{{ wm_project_path }}"
+  with_together:
+    - "{{ wm_package_path }}"
+    - "{{ wm_package }}"
+
+# 重启服务
+- name: restart scheduler
+  shell: "/bin/bash app.sh restart"
+  args:
+    chdir: "{{ wm_project_path }}/{{ item[0] }}/"
+  async: 60
+  poll: 1
+  with_together:
+    - "{{ wm_project }}"
+    - "{{ wm_project_start }}"

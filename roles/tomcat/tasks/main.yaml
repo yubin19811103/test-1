@@ -12,6 +12,16 @@
     dest: /tmp
     remote_src: True
 
+- name: mkdir tomcat_path dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ tomcat_path }}"
+    state: directory
+    owner: waming
+    group: waming
+    mode: 0755
+
 - name: copy tomcat
   command: "cp -a /tmp/tomcat {{ tomcat_path }}/tomcat{{ item }}"
   with_items:

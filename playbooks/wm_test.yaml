@@ -1,0 +1,6 @@
+---
+
+- name: wm_test deploy 
+  hosts: all
+  roles:
+  - wm_test

@@ -1,0 +1,11 @@
+[syndata]
+192.168.5.66
+
+[syndata:vars]
+ansible_ssh_user=waming
+wm_package=weather-syndata-package.zip
+wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-test-syndata/target
+wm_project=weather-syndata
+wm_project_path=/app/service
+wm_project_port=8089
+backup_time=`date +%Y%m%d-%H:%M:%S`
