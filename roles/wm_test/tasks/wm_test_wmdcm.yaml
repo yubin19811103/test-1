@@ -27,8 +27,8 @@
 
 # 拷贝jar包到部署端
 - name: copy wmdcm
-  become: yes
-  become_user: root
+  # become: yes
+  # become_user: root
   copy:
     src: "{{ item[0] }}/{{ item[1] }}"
     dest: "{{ item[2] }}"
@@ -38,16 +38,30 @@
     - "{{ wm_package }}"
     - "{{ wm_project_path }}"
 
+# 拷贝启动脚本到部署端
+- name: copy wmdcm bin
+  # become: yes
+  # become_user: root
+  copy:
+    src: "{{ item[0] }}"
+    dest: "{{ item[1] }}"
+    force: yes
+  with_together:
+    - "{{ wm_package_bin }}"
+    - "{{ wm_project_path }}"
+
 # 重启服务
 - name: restart wmdcm
-  become: yes
-  become_user: root
-  shell: /bin/bash restart_dcm.sh
+  # become: yes
+  # become_user: root
+  shell: /bin/bash start.sh
   args:
-    chdir: "{{ path }}/wmdcm"
+    chdir: "{{ item }}/bin"
   async: 120
   poll: 1
   ignore_errors: True
+  with_items:
+    - "{{ wm_project_path }}"
 
 # 检查端口
 - name: check {{ wm_project }} port is opened
@@ -55,6 +69,5 @@
     host: "{{ groups['wmdcm'][0] }}"
     port: "{{ item }}"
     timeout: 30
-  # ignore_errors: True
   with_items:
     - "{{ wm_project_port }}"

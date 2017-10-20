@@ -20,6 +20,8 @@
     state: present
 
 - name: copy init_user.sh to client
+  become: yes
+  become_user: root
   copy:
     src: init_user.sh
     dest: /tmp/init_user.sh
@@ -28,3 +30,15 @@
   become: yes
   become_user: root
   shell: sh /tmp/init_user.sh
+
+- name: copy get-pip-linux.py to client
+  become: yes
+  become_user: root
+  copy:
+    src: get-pip-linux.py
+    dest: /tmp/get-pip-linux.py
+
+- name: install pip
+  become: yes
+  become_user: root
+  shell: python /tmp/get-pip-linux.py
