@@ -42,3 +42,10 @@
     chdir: "{{ wm_project_path }}/{{ wm_project }}/bin/"
   async: 60
   poll: 1
+
+# 检查端口
+- name: check api port is opened
+  wait_for:
+    host: "{{ groups['wm'][0] }}"
+    port: "{{ wm_project_port }}"
+    timeout: 30
