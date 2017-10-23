@@ -26,6 +26,6 @@
   #when: 'wm_project_all == "weather-scheduler"'
   when: '"job-datawarn" in wm_project'
 
-- name: install wm-test-scheduler
+- name: install wm-test-wmdcm
   include: "wm_test_wmdcm.yaml"
   when: '"wmdcm-db.jar" in wm_project'
