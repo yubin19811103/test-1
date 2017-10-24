@@ -1,0 +1,38 @@
+---
+
+
+# web部署
+- name: web backup weather-web 
+  remote_user: waming
+  command: "cp -a {{ wm_project_path }}/{{ wm_project }} /app/backup/"
+
+- name: web backup time
+  remote_user: waming
+  shell: "cp -a /app/backup/{{ wm_project }} /app/backup/{{ wm_project }}{{ backup_time }}"
+
+- name: web copy weather-web
+  remote_user: waming
+  #become: yes
+  #become_user: root
+  copy:
+    src: "{{ wm_package_path }}/{{ wm_package }}"
+    dest: "{{ wm_project_path }}"
+    force: yes
+
+- name: stop tomcat
+  command: "{{ tomcat_bin_path }}/shutdown.sh"
+  async: 100
+  poll: 1
+
+- name: start tomcat
+  command: "{{ tomcat_bin_path }}/startup.sh"
+  async: 100
+  poll: 1
+
+# 检查端口
+- name: check weather-web port is opened
+  wait_for:
+    host: "{{ groups['wm'][0] }}"
+    port: "{{ wm_project_port }}"
+    timeout: 30
+  # ignore_errors: True

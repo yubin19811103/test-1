@@ -1,0 +1,6 @@
+---
+
+- name: production deploy 
+  hosts: all
+  roles:
+  - production

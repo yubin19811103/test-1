@@ -1,0 +1,19 @@
+[wmdcm]
+10.0.0.23
+
+[wmdcm:vars]
+ansible_ssh_user=waming
+wm_package=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
+
+wm_package_path=["/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-receive-v1/target/","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-analysis/target/","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-db/target/","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-api/target/"]
+
+wm_package_bin=["/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-receive-v1/bin","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-analysis/bin","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-db/bin","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-api/bin"]
+
+wm_project=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
+
+wm_project_path=["/u01/service/wmdcm/wmdcm-receive-v1/","/u01/service/wmdcm/wmdcm-analysis/","/u01/service/wmdcm/wmdcm-db/","/u01/service/wmdcm/wmdcm-api/"]
+
+wm_project_port=['21005','9561','9562','9563']
+
+path=/u01/service
+backup_time=`date +%Y%m%d-%H:%M:%S`

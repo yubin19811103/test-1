@@ -1,0 +1,73 @@
+---
+
+# 数据汇集平台部署
+# 备份
+- name: mkdir wmdcm backup dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ path }}/backup"
+    state: directory
+    owner: waming
+    group: waming
+    mode: 0755
+
+- name: backup wmdcm
+  become: yes
+  become_user: root
+  command: "cp -a {{ path }}/wmdcm {{ path }}/backup/" 
+  register: result
+  ignore_errors: True
+
+- name: backup time wmdcm
+  become: yes
+  become_user: root
+  shell: "mv {{ path }}/backup/wmdcm {{ path }}/backup/wmdcm-{{ backup_time }}"
+  when: result | succeeded
+
+# 拷贝jar包到部署端
+- name: copy wmdcm
+  # become: yes
+  # become_user: root
+  copy:
+    src: "{{ item[0] }}/{{ item[1] }}"
+    dest: "{{ item[2] }}"
+    force: yes
+  with_together:
+    - "{{ wm_package_path }}"
+    - "{{ wm_package }}"
+    - "{{ wm_project_path }}"
+
+# 拷贝启动脚本到部署端
+- name: copy wmdcm bin
+  # become: yes
+  # become_user: root
+  copy:
+    src: "{{ item[0] }}"
+    dest: "{{ item[1] }}"
+    force: yes
+  with_together:
+    - "{{ wm_package_bin }}"
+    - "{{ wm_project_path }}"
+
+# 重启服务
+- name: restart wmdcm
+  # become: yes
+  # become_user: root
+  shell: /bin/bash start.sh
+  args:
+    chdir: "{{ item }}/bin"
+  async: 120
+  poll: 1
+  ignore_errors: True
+  with_items:
+    - "{{ wm_project_path }}"
+
+# 检查端口
+- name: check wmdcm port is opened
+  wait_for:
+    host: "{{ groups['wmdcm'][0] }}"
+    port: "{{ item }}"
+    timeout: 30
+  with_items:
+    - "{{ wm_project_port }}"
