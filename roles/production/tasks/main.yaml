@@ -20,3 +20,15 @@
 - name: install warn
   include: "pro_warn.yaml"
   when: 'wm_project == "weather-warn"'
+
+- name: install crawler
+  include: "pro_crawler.yaml"
+  when: 'wm_project == "weather-crawler"'
+
+- name: install job-crawler
+  include: "pro_job-crawler.yaml"
+  when: '"job-crawler" in wm_project'
+
+- name: install syndata
+  include: "pro_syndata.yaml"
+  when: 'wm_project == "weather-syndata"'

@@ -19,15 +19,15 @@
     dest: "{{ wm_project_path }}"
     force: yes
 
-- name: stop tomcat
-  command: "{{ tomcat_bin_path }}/shutdown.sh"
-  async: 100
-  poll: 1
+#- name: stop tomcat
+#  command: "{{ tomcat_bin_path }}/shutdown.sh"
+#  async: 100
+#  poll: 1
 
-- name: start tomcat
-  command: "{{ tomcat_bin_path }}/startup.sh"
-  async: 100
-  poll: 1
+#- name: start tomcat
+#  command: "{{ tomcat_bin_path }}/startup.sh"
+#  async: 100
+#  poll: 1
 
 # 检查端口
 - name: check weather-web port is opened
