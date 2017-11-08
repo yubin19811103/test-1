@@ -1,6 +1,6 @@
 [common]
-192.168.5.222
+192.168.4.40
 
 [common:vars]
-ansible_ssh_user=waming
-#ansible_ssh_pass=waming@2030
+ansible_ssh_user=root
+ansible_ssh_pass=waming@2030

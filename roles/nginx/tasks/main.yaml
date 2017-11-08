@@ -2,13 +2,15 @@
 
 - name: check the service port is opened
   wait_for:
-    host: "{{ groups['wm'][0] }}"
+    host: "{{ item }}"
     port: "{{ nginx_port }}"
     timeout: 5
   delegate_to: 127.0.0.1
   ignore_errors: True
   run_once: true
   register: nginx_running
+  with_items:
+    - "{{ groups['wm'] }}"
 
 - name: yum install package
   become: yes
@@ -17,7 +19,7 @@
     name: "{{ item }}"
     state: latest
   with_items: 
-      - "{{ yum_list }}"
+    - "{{ yum_list }}"
 
 - name: useradd nginx
   become: yes
@@ -36,6 +38,16 @@
     src: /tmp/nginx-1.10.3.tar.gz
     dest: /tmp/
     remote_src: True
+
+- name: mkdir mysql_data dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ nginx_path }}"
+    state: directory
+    owner: waming
+    group: waming
+    mode: 0755
 
 - name: configure nginx
   become: yes
@@ -66,6 +78,8 @@
   command: systemctl enable nginx.service
 
 - name: create nginx config file
+  become: yes
+  become_user: root
   template:
     src: nginx.conf.j2
     dest: "{{ nginx_path }}/conf/nginx.conf"

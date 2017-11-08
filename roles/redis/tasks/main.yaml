@@ -22,7 +22,7 @@
 - name: install redis 
   become: yes
   become_user: root
-  shell: "make && make PREFIX=/u01/redis install"
+  shell: "make MALLOC=libc && make PREFIX=/u01/redis install"
   args:
     chdir: "/tmp/redis-3.2.8"
 

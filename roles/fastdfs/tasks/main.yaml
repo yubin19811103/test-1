@@ -1,5 +1,25 @@
 ---
 
+- name: check the fastdfs Tracker port is opened
+  wait_for:
+    host: "{{ tracker_server }}"
+    port: "{{ tracker_port }}"
+    timeout: 5
+  delegate_to: 127.0.0.1
+  ignore_errors: True
+  run_once: true
+  register: fastdfs_tracker_running
+
+- name: check the fastdfs storage port is opened
+  wait_for:
+    host: "{{ storage_server }}"
+    port: "{{ storage_port }}"
+    timeout: 5
+  delegate_to: 127.0.0.1
+  ignore_errors: True
+  run_once: true
+  register: fastdfs_storage_running
+
 - name: check the service port is opened
   wait_for:
     host: "{{ groups['wm'][0] }}"
@@ -19,62 +39,14 @@
   with_items: 
       - "{{ yum_list }}"
 
-- name: useradd nginx
-  become: yes
-  become_user: root
-  user:
-    name: nginx
-    shell: /sbin/nologin
-
-- name: copy nginx.tar.gz to client
-  copy: 
-    src: nginx-1.10.3.tar.gz 
-    dest: /tmp/nginx-1.10.3.tar.gz
-
-- name: Unarchive nginx
-  unarchive:
-    src: /tmp/nginx-1.10.3.tar.gz
+- name: copy fastdfs package to client
+  copy:
+    src: "{{ item }}"
     dest: /tmp/
-    remote_src: True
+  with_fileglob:
+    - files/*
 
-- name: configure nginx
-  become: yes
-  become_user: root
-  command: "./configure --prefix={{ nginx_path }} --user=nginx --group=nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre" 
-  args:
-    chdir: /tmp/nginx-1.10.3/
+- name: install fastdfs
+  include: "install_fastdfs.yaml"
+  when: fastdfs_running | failed
 
-- name: make nginx
-  become: yes
-  become_user: root
-  shell: make && make install
-  args:
-    chdir: /tmp/nginx-1.10.3/
-
-- name: create nginx.service file
-  become: yes
-  become_user: root
-  template:
-    src: nginx.service.j2
-    dest: /lib/systemd/system/nginx.service
-    mode: 0745
-    backup: yes
-
-- name: Add system service
-  become: yes
-  become_user: root
-  command: systemctl enable nginx.service
-
-- name: create nginx config file
-  template:
-    src: nginx.conf.j2
-    dest: "{{ nginx_path }}/conf/nginx.conf"
-    backup: yes
-  notify:
-    - restart nginx
-
-- name: start nginx
-  become: yes
-  become_user: root
-  command: systemctl start nginx.service
-  when: nginx_running | failed
