@@ -1,0 +1,11 @@
+[crawler]
+10.0.0.7
+
+[crawler:vars]
+ansible_ssh_user=waming
+wm_package=weather-crawler-package.zip
+wm_package_path=/u01/jenkins/workspace/jinshan-crawler/target
+wm_project=weather-crawler
+wm_project_path=/app/service
+wm_project_port=8083
+backup_time=`date +%Y%m%d-%H:%M:%S`

@@ -23,7 +23,6 @@
 
 - name: install wm-test-scheduler
   include: "wm_test_scheduler.yaml"
-  #when: 'wm_project_all == "weather-scheduler"'
   when: '"job-datawarn" in wm_project'
 
 - name: install wm-test-wmdcm

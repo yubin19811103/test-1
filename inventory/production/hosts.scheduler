@@ -3,14 +3,12 @@ scheduler
 
 [wm:vars]
 ansible_ssh_user=waming
-wm_package=["job-crawler-package.tar.gz", "job-aggregate-package.tar.gz", "job-datawarn-package.tar.gz"]
-wm_package_path=["/u01/jenkins/workspace/jinshan-scheduler/job-crawler/target", "/u01/jenkins/workspace/jinshan-scheduler/job-aggregate/target", "/u01/jenkins/workspace/jinshan-scheduler/job-datawarn/target"]
+wm_package=["job-aggregate-package.tar.gz", "job-datawarn-package.tar.gz"]
+wm_package_path=["/u01/jenkins/workspace/jinshan-scheduler/job-aggregate/target", "/u01/jenkins/workspace/jinshan-scheduler/job-datawarn/target"]
 #console=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-test-scheduler/console/wm-job-console.zip
 
-
-wm_project=["job-crawler","job-aggregate","job-datawarn"]
+wm_project=["job-aggregate","job-datawarn"]
 wm_project_path=/app/service
-wm_project_start=["crawler.sh","aggregate.sh","datawarn.sh"]
 
 backup_time=`date +%Y%m%d_%H:%M:%S`
 
