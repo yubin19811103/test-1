@@ -1,11 +1,11 @@
 [mysql]
-192.168.4.97 replication=master
-192.168.4.38 replication=slave
+192.168.5.95 replication=master
+#192.168.4.38 replication=slave
 
 [mysql:vars]
 ansible_ssh_user=waming
-master_ip=192.168.4.97
-slave_ip=192.168.4.38
+master_ip=192.168.5.95
+#slave_ip=192.168.4.38
 mysql_pass=waming@2030
 mysql_port=3306
 mysql_dir=/u01/mysql

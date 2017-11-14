@@ -39,7 +39,7 @@
     dest: /tmp/
     remote_src: True
 
-- name: mkdir mysql_data dir
+- name: mkdir nginx dir
   become: yes
   become_user: root
   file:
@@ -55,6 +55,7 @@
   command: "./configure --prefix={{ nginx_path }} --user=nginx --group=nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre" 
   args:
     chdir: /tmp/nginx-1.10.3/
+  when: nginx_running | failed
 
 - name: make nginx
   become: yes
@@ -62,6 +63,7 @@
   shell: make && make install
   args:
     chdir: /tmp/nginx-1.10.3/
+  when: nginx_running | failed
 
 - name: create nginx.service file
   become: yes

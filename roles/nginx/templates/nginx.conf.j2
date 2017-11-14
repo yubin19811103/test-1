@@ -16,8 +16,8 @@ events {
 
 http {
     upstream backend {
-       server {{ tomcat1_ip }}:8080 ; 
-       server {{ tomcat2_ip }}:8080 backup; 
+       server {{ tomcat1_ip }}:{{ tomcat_port }} ; 
+       server {{ tomcat2_ip }}:{{ tomcat_port }} backup; 
        }
      
 
@@ -28,7 +28,7 @@ http {
        server_name backend:{{ nginx_port }};
 
         location / {
-            root   /app/tomcat8/webapps/weather-web/pages/jsp;
+            root   /app/service/tomcat{{ tomcat_port }}/webapps/weather-web/pages/jsp;
             index  index.html index.htm;
             proxy_pass http://backend;
             proxy_redirect default;

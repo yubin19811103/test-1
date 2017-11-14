@@ -1,0 +1,19 @@
+[wmdcm]
+192.168.4.81
+
+[wmdcm:vars]
+ansible_ssh_user=waming
+wm_package=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
+
+wm_package_path=["/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-receive-v1/target/","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-analysis/target/","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-db/target/","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-api/target/"]
+
+wm_package_bin=["/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-receive-v1/bin","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-analysis/bin","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-db/bin","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-api/bin"]
+
+wm_project=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
+
+wm_project_path=["/opt/wmdcm/wmdcm-receive-v1/","/opt/wmdcm/wmdcm-analysis/","/opt/wmdcm/wmdcm-db/","/opt/wmdcm/wmdcm-api/"]
+
+wm_project_port=['9560','9561','9562','9563']
+
+path=/opt
+backup_time=`date +%Y%m%d-%H:%M:%S`

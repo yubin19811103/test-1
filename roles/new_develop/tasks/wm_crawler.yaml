@@ -2,7 +2,7 @@
 
 # 微服务部署
 # 备份
-- name: mkdir weather-warn backup dir
+- name: mkdir weather-crawler backup dir
   become: yes
   become_user: root
   file:
@@ -12,39 +12,33 @@
     group: waming
     mode: 0755
 
-- name: weather-warn backup
+- name: weather-crawler backup
   remote_user: waming
   command: "cp -a {{ wm_project_path }}/{{ wm_project }} {{ wm_project_path }}/backup"
   register: result
   ignore_errors: True
 
-- name: web weather-warn backup time
+- name: weather-crawler backup time
   remote_user: waming
-  shell: "mv {{ wm_project_path }}/backup/{{ wm_project }} {{ wm_project_path }}/backup/{{ wm_project }}{{ backup_time }}"
+  shell: "cp -a {{ wm_project_path }}/backup/{{ wm_project }} {{ wm_project_path }}/backup/{{ wm_project }}{{ backup_time }}"
   when: result | succeeded
 
 # 删除老的lib
-- name: delete weather-warn lib
+- name: delete weather-crawler lib
   file:
     dest: "{{ wm_project_path }}/{{ wm_project }}/lib"
     state: absent
 
 # 解压到远端服务器
-- name: Unarchive weather-warn
+- name: Unarchive weather-crawler
   unarchive:
     src: "{{ wm_package_path }}/{{ wm_package }}"
     dest: "{{ wm_project_path }}"
 
 # 重启服务
-- name: restart weather-warn
+- name: restart weather-crawler
   shell: /bin/bash start.sh
   args:
     chdir: "{{ wm_project_path }}/{{ wm_project }}/bin/"
   async: 60
   poll: 1
-
-- name: check api port is opened
-  wait_for:
-    host: "{{ groups['wm'][0] }}"
-    port: "{{ wm_project_port }}"
-    timeout: 30

@@ -1,0 +1,30 @@
+---
+
+
+- name: install wm-api
+  include: "wm_api.yaml"
+  when: 'wm_project == "weather-api"'
+
+- name: install wm-crawler
+  include: "wm_crawler.yaml"
+  when: 'wm_project == "weather-crawler"'
+
+- name: install wm-web
+  include: "wm_web.yaml"
+  when: 'wm_project == "weather-web.war"'
+
+- name: install wm-warn
+  include: "wm_warn.yaml"
+  when: 'wm_project == "weather-warn"'
+
+- name: install wm-syndata
+  include: "wm_syndata.yaml"
+  when: 'wm_project == "weather-syndata"'
+
+- name: install wm-scheduler
+  include: "wm_scheduler.yaml"
+  when: '"job-datawarn" in wm_project'
+
+- name: install wm-wmdcm
+  include: "wm_wmdcm.yaml"
+  when: '"wmdcm-db.jar" in wm_project'
