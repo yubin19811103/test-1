@@ -1,0 +1,12 @@
+[wm]
+42.123.122.119
+42.123.122.121
+
+[wm:vars]
+ansible_ssh_user=waming
+wm_package=weather-web.war
+wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/tianyi/chengdu-web/02-Development/02-Source/weather-parent/weather-web/target
+wm_project=weather-web.war
+wm_project_path=/app/tomcat/webapps
+wm_project_port=8090
+backup_time=`date +%Y%m%d_%H:%M:%S`

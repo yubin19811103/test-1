@@ -1,0 +1,30 @@
+---
+
+
+- name: install chengdu-api
+  include: "chengdu_api.yaml"
+  when: 'wm_project == "weather-api"'
+
+- name: install chengdu-crawler
+  include: "chengdu_crawler.yaml"
+  when: 'wm_project == "weather-crawler"'
+
+- name: install chengdu-web
+  include: "chengdu_web.yaml"
+  when: 'wm_project == "weather-web.war"'
+
+- name: install chengdu-warn
+  include: "chengdu_warn.yaml"
+  when: 'wm_project == "weather-warn"'
+
+- name: install chengdu-syndata
+  include: "chengdu_syndata.yaml"
+  when: 'wm_project == "weather-syndata"'
+
+- name: install chengdu-scheduler
+  include: "chengdu_scheduler.yaml"
+  when: '"job-datawarn" in wm_project'
+
+- name: install chengdu-wmdcm
+  include: "chengdu_wmdcm.yaml"
+  when: '"wmdcm-db.jar" in wm_project'

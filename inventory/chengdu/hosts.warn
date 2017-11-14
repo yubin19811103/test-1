@@ -1,10 +1,10 @@
 [wm]
-192.168.4.41
+42.123.122.120
 
 [wm:vars]
 ansible_ssh_user=waming
 wm_package=weather-warn-package.zip
-wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/new-develop/new-develop-warn/target
+wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/tianyi/chengdu-warn/target
 wm_project=weather-warn
 wm_project_path=/app/service
 wm_project_port=8084

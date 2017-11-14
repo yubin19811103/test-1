@@ -4,8 +4,8 @@ scheduler
 [wm:vars]
 ansible_ssh_user=waming
 wm_package=["job-crawler-package.tar.gz", "job-aggregate-package.tar.gz", "job-datawarn-package.tar.gz"]
-wm_package_path=["/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-scheduler/job-crawler/target", "/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-scheduler/job-aggregate/target", "/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-scheduler/job-datawarn/target"]
-console=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-scheduler/console/wm-job-console.zip
+wm_package_path=["/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/new-develop/new-develop-scheduler/job-crawler/target", "/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/new-develop/new-develop-scheduler/job-aggregate/target", "/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/new-develop/new-develop-scheduler/job-datawarn/target"]
+console=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/new-develop/new-develop-scheduler/console/new-develop/new-develop-job-console.zip
 
 
 wm_project=["job-crawler","job-aggregate","job-datawarn"]

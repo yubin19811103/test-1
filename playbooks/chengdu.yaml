@@ -1,0 +1,6 @@
+---
+
+- name: chengdu deploy 
+  hosts: all
+  roles:
+  - chengdu
