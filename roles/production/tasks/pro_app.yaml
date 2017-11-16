@@ -6,11 +6,13 @@
   become: yes
   become_user: root
   command: "cp -a {{ wm_project_path }}/{{ wm_project }} /app/backup/"
+  ignore_errors: True
 
 - name: app backup time
   become: yes
   become_user: root
   shell: "cp -a /app/backup/{{ wm_project }} /app/backup/{{ wm_project }}{{ backup_time }}"
+  ignore_errors: True
 
 - name: copy weather-app
   become: yes
@@ -20,15 +22,15 @@
     dest: "{{ wm_project_path }}"
     force: yes
 
-#- name: stop tomcat
-#  command: "{{ tomcat_bin_path }}/shutdown.sh"
-#  async: 100
-#  poll: 1
+- name: stop tomcat
+  command: "{{ tomcat_bin_path }}/shutdown.sh"
+  async: 100
+  poll: 1
 
-#- name: start tomcat
-#  command: "{{ tomcat_bin_path }}/startup.sh"
-#  async: 100
-#  poll: 1
+- name: start tomcat
+  command: "{{ tomcat_bin_path }}/startup.sh"
+  async: 100
+  poll: 1
 
 # 检查端口
 - name: check weather-app port is opened

@@ -32,3 +32,7 @@
 - name: install syndata
   include: "pro_syndata.yaml"
   when: 'wm_project == "weather-syndata"'
+
+- name: install app
+  include: "pro_app.yaml"
+  when: 'wm_project == "weather.war" or wm_project == "wechat01.war"'

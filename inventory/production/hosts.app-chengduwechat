@@ -2,7 +2,7 @@
 10.0.0.9
 
 [wm:vars]
-ansible_ssh_user=waming
+ansible_ssh_user=root
 wm_package=weather.war
 wm_package_path=/u01/jenkins/workspace/jinshan-app-chengduwechat/target
 wm_project=weather.war

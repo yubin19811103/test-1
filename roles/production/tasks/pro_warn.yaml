@@ -3,8 +3,8 @@
 # 微服务部署
 # 备份
 - name: mkdir weather-warn backup dir
-  become: yes
-  become_user: root
+#  become: yes
+#  become_user: root
   file:
     path: "{{ wm_project_path }}/backup"
     state: directory
