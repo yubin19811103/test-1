@@ -74,9 +74,8 @@
 - name: restart scheduler
   shell: "/bin/bash app.sh restart"
   args:
-    chdir: "{{ wm_project_path }}/{{ item[0] }}/"
+    chdir: "{{ wm_project_path }}/{{ item }}/"
   async: 60
   poll: 1
-  with_together:
+  with_items:
     - "{{ wm_project }}"
-    - "{{ wm_project_start }}"
