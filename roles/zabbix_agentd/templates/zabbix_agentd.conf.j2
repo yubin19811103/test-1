@@ -11,6 +11,9 @@ ServerActive=127.0.0.1
 Hostname=Zabbix server
 Include=/usr/local/zabbix/etc/zabbix_agentd.conf.d/
 UnsafeUserParameters=1
+
+# job
+UserParameter=job_process[*],ps -ef | grep $1 | grep -v grep |wc -l
 ## JVM
 ##UserParameter=jmx.jvm.discovery,python /usr/local/zabbix/share/zabbix/alertscripts/jvm.py --list
 ##UserParameter=jmx.jvm.item[*],/usr/bin/python /usr/local/zabbix/share/zabbix/alertscripts/jvm.py -b $1 -k $2 -p $3
