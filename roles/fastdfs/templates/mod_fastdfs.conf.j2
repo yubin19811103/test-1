@@ -37,7 +37,9 @@ storage_ids_filename = storage_ids.conf
 # FastDFS tracker_server can ocur more than once, and tracker_server format is
 #  "host:port", host can be hostname or ip address
 # valid only when load_fdfs_parameters_from_tracker is true
-tracker_server={{ tracker_server }}:{{ tracker_port }}
+{% for i in tracker_server %}
+tracker_server={{ i }}:{{ tracker_port }}
+{% endfor %}
 
 # the port of the local storage server
 # the default value is 23000

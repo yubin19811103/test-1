@@ -20,13 +20,13 @@
 
 - name: web weather-syndata backup time
   remote_user: waming
-  shell: "cp -a {{ wm_project_path }}/backup/{{ wm_project }} {{ wm_project_path }}/backup/{{ wm_project }}{{ backup_time }}"
+  shell: "mv {{ wm_project_path }}/backup/{{ wm_project }} {{ wm_project_path }}/backup/{{ wm_project }}{{ backup_time }}"
   when: result | succeeded
 
 # 删除老的lib
 - name: delete weather-syndata lib
   file:
-    dest: "{{ wm_project_path }}/{{ wm_project }}/lib"
+    dest: "{{ wm_project_path }}/{{ wm_project }}"
     state: absent
 
 # 解压到远端服务器

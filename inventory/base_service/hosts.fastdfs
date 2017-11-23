@@ -1,18 +1,22 @@
 [fastdfs]
-192.168.0.103
+192.168.4.48 role=all
+192.168.4.49 role=storage
 
 [fastdfs:vars]
 ansible_ssh_user=waming
-tracker_server=192.168.0.103
+tracker_server=["192.168.4.48"]
 tracker_port=22122
 tracker_http_server_port=80
 
-storage_server=192.169.0.103
+storage_server=["192.168.4.48","192.168.4.49"]
 storage_port=23000
 storage_path=/u01/fastdfs
 storage_http_server_port=9999
 
 base_path=/u01/fastdfs
-nginx_port=80
-yum_list=["gcc", "zlib", "zlib-devel", "openssl", "openssl-devel", "pcre-devel"]
-nginx_path=/usr/local/nginx
+nginx_tracker_port=18080
+nginx_storage_port=18090
+yum_list=["gcc", "make", "cmake", "zlib", "zlib-devel", "openssl", "openssl-devel", "pcre-devel", "psmisc"]
+nginx_path=/u01/nginx
+link_listsource=["libfastcommon.so", "libfdfsclient.so"]
+link_list=["/usr/local/lib", "/usr/lib"]

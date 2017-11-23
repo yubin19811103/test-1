@@ -5,6 +5,10 @@
   include: "wm_api.yaml"
   when: 'wm_project == "weather-api"'
 
+- name: install wm-core
+  include: "wm_core.yaml"
+  when: 'wm_project == "weather-main"'
+
 - name: install wm-crawler
   include: "wm_crawler.yaml"
   when: 'wm_project == "weather-crawler"'

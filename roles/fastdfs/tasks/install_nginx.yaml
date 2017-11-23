@@ -1,23 +1,27 @@
 ---
 
-- name: check the service port is opened
+- name: check the nginx_tracker port is opened
   wait_for:
-    host: "{{ groups['wm'][0] }}"
-    port: "{{ nginx_port }}"
+    host: "{{ item }}"
+    port: "{{ nginx_tracker_port }}"
     timeout: 5
-  delegate_to: 127.0.0.1
   ignore_errors: True
   run_once: true
-  register: nginx_running
+  register: nginx_tracker_running
+  with_items:
+      - "{{ tracker_server }}"
 
-- name: yum install package
-  become: yes
-  become_user: root
-  yum:
-    name: "{{ item }}"
-    state: latest
-  with_items: 
-      - "{{ yum_list }}"
+- name: check the nginx_storage port is opened
+  wait_for:
+    host: "{{ item }}"
+    port: "{{ nginx_storage_port }}"
+    timeout: 5
+  ignore_errors: True
+  run_once: true
+  register: nginx_storage_running
+  with_items:
+      - "{{ storage_server }}"
+  # when: 'role=="all" or role=="storage"'
 
 - name: useradd nginx
   become: yes
@@ -26,55 +30,82 @@
     name: nginx
     shell: /sbin/nologin
 
-- name: copy nginx.tar.gz to client
-  copy: 
-    src: nginx-1.10.3.tar.gz 
-    dest: /tmp/nginx-1.10.3.tar.gz
-
-- name: Unarchive nginx
-  unarchive:
-    src: /tmp/nginx-1.10.3.tar.gz
-    dest: /tmp/
-    remote_src: True
-
 - name: configure nginx
   become: yes
   become_user: root
-  command: "./configure --prefix={{ nginx_path }} --user=nginx --group=nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre" 
+  command: "./configure --prefix={{ nginx_path }} --add-module=/tmp/fastdfs-nginx-module-master/src" 
   args:
-    chdir: /tmp/nginx-1.10.3/
+    chdir: /tmp/nginx-master/
+  when: 'nginx_tracker_running | failed or nginx_storage_running | failed'
 
 - name: make nginx
   become: yes
   become_user: root
   shell: make && make install
   args:
-    chdir: /tmp/nginx-1.10.3/
+    chdir: /tmp/nginx-master/
+  when: 'nginx_tracker_running | failed or nginx_storage_running | failed'
 
-- name: create nginx.service file
+- name: create nginx_tracker config file
   become: yes
   become_user: root
   template:
-    src: nginx.service.j2
-    dest: /lib/systemd/system/nginx.service
-    mode: 0745
+    src: nginx_tracker.conf.j2
+    dest: "{{ nginx_path }}/conf/nginx_tracker.conf"
     backup: yes
 
-- name: Add system service
+- name: create nginx_storage config file
   become: yes
   become_user: root
-  command: systemctl enable nginx.service
-
-- name: create nginx config file
   template:
-    src: nginx.conf.j2
-    dest: "{{ nginx_path }}/conf/nginx.conf"
+    src: nginx_storage.conf.j2 
+    dest: "{{ nginx_path }}/conf/nginx_storage.conf"
     backup: yes
-  notify:
-    - restart nginx
 
-- name: start nginx
+- name: create mime.types config file
   become: yes
   become_user: root
-  command: systemctl start nginx.service
-  when: nginx_running | failed
+  template:
+    src: mime.types.j2
+    dest: "/etc/fdfs/mime.types"
+    backup: yes
+
+- name: create http.conf config file
+  become: yes
+  become_user: root
+  template:
+    src: http.conf.j2
+    dest: "/etc/fdfs/http.conf"
+    backup: yes
+
+- name: create mod_fastdfs.conf config file
+  become: yes
+  become_user: root
+  template:
+    src: mod_fastdfs.conf.j2
+    dest: "/etc/fdfs/mod_fastdfs.conf"
+    backup: yes
+
+- name: created link
+  become: yes
+  become_user: root
+  file:
+    src:  "{{ storage_path }}/data"
+    dest:  "{{ storage_path }}/data/M00"
+    state: link
+
+- name: stop nginx
+  become: yes
+  become_user: root
+  command: killall nginx
+  ignore_errors: True
+
+- name: start nginx_tracker
+  become: yes
+  become_user: root
+  command: "{{ nginx_path }}/sbin/nginx -c {{ nginx_path }}/conf/nginx_tracker.conf"
+
+- name: start nginx_storage
+  become: yes
+  become_user: root
+  command: "{{ nginx_path }}/sbin/nginx -c {{ nginx_path }}/conf/nginx_storage.conf"

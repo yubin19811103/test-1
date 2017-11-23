@@ -1,34 +1,31 @@
 ---
 
-- name: check the fastdfs Tracker port is opened
+
+- name: check the fdfs_tracker port is opened
   wait_for:
-    host: "{{ tracker_server }}"
+    host: "{{ item }}"
     port: "{{ tracker_port }}"
     timeout: 5
   delegate_to: 127.0.0.1
   ignore_errors: True
   run_once: true
-  register: fastdfs_tracker_running
+  register: fdfs_tracker_running
+  with_items:
+    - "{{ groups.fastdfs }}"
+  when: 'role=="all" or role=="tracker"'
 
-- name: check the fastdfs storage port is opened
+- name: check the fdfs_storage port is opened
   wait_for:
-    host: "{{ storage_server }}"
+    host: "{{ item }}"
     port: "{{ storage_port }}"
     timeout: 5
   delegate_to: 127.0.0.1
   ignore_errors: True
   run_once: true
-  register: fastdfs_storage_running
-
-- name: check the service port is opened
-  wait_for:
-    host: "{{ groups['wm'][0] }}"
-    port: "{{ nginx_port }}"
-    timeout: 5
-  delegate_to: 127.0.0.1
-  ignore_errors: True
-  run_once: true
-  register: nginx_running
+  register: fdfs_storage_running
+  with_items:
+    - "{{ groups.fastdfs }}"
+  when: 'role=="all" or role=="storage"'
 
 - name: yum install package
   become: yes
@@ -36,17 +33,17 @@
   yum:
     name: "{{ item }}"
     state: latest
-  with_items: 
-      - "{{ yum_list }}"
+  with_items:
+    - "{{ yum_list }}"
 
-- name: copy fastdfs package to client
-  copy:
-    src: "{{ item }}"
-    dest: /tmp/
-  with_fileglob:
-    - files/*
 
-- name: install fastdfs
-  include: "install_fastdfs.yaml"
-  when: fastdfs_running | failed
+- name: install fdfs_tracker
+  include: "install_fdfs_tracker.yaml"
+#  when: 'fdfs_tracker_running | failed and role=="tracker"'
 
+#- name: install fdfs_storage
+#  include: "install_fdfs_tracker.yaml"
+#  when: 'fdfs_storage_running | failed and role=="storage"'
+
+- name: install fdfs_nginx
+  include: "install_nginx.yaml"

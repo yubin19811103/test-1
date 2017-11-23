@@ -115,7 +115,9 @@ subdir_count_per_path=256
 
 # tracker_server can ocur more than once, and tracker_server format is
 #  "host:port", host can be hostname or ip address
-tracker_server={{ tracker_server }}:{{ tracker_port }}
+{% for i in tracker_server %}
+tracker_server={{ i }}:{{ tracker_port }}
+{% endfor %}
 
 #standard log level as syslog, case insensitive, value list:
 ### emerg for emergency

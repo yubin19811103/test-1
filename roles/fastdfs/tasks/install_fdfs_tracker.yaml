@@ -1,0 +1,75 @@
+---
+
+
+- name: mkdir fdfs base_path dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ base_path }}"
+    state: directory
+    mode: 0755
+
+- name: Unarchive fdfs package
+  unarchive:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_fileglob:
+    - files/*
+
+# 安装libfastcommon
+- name: install libfastcommon
+  become: yes
+  become_user: root
+  shell: sh make.sh && sh make.sh install
+  args:
+    chdir: "/tmp/libfastcommon-master/"
+
+# 安装 fastdfs
+- name: install fastdfs
+  become: yes
+  become_user: root
+  shell: sh make.sh && sh make.sh install
+  args:
+    chdir: "/tmp/fastdfs-master/"
+
+# 创建软连接
+- name: created  link
+  become: yes
+  become_user: root
+  file:
+    src:  "/usr/lib64/{{ item[0] }}"
+    dest:  "{{ item[1] }}/{{ item[0] }}"
+    state: link
+  with_nested:
+    - "{{ link_listsource }}"
+    - "{{ link_list }}"
+
+- name: create fastdfs tracker_conf file
+  become: yes
+  become_user: root
+  template:
+    src: tracker.conf.j2 
+    dest: "/etc/fdfs/tracker.conf"
+    backup: yes
+  when: 'role=="all" or role=="tracker"'
+
+- name: create fastdfs storage_conf file
+  become: yes
+  become_user: root
+  template:
+    src: storage.conf.j2
+    dest: "/etc/fdfs/storage.conf"
+    backup: yes
+  when: 'role=="all" or role=="storage"'
+
+- name: start fastdfs_tracker
+  become: yes
+  become_user: root
+  shell: fdfs_trackerd /etc/fdfs/tracker.conf restart
+  when: 'role=="all" or role=="tracker"'
+
+- name: start fastdfs_storage
+  become: yes
+  become_user: root
+  shell: fdfs_storaged /etc/fdfs/storage.conf restart 
+  when: 'role=="all" or role=="storage"'

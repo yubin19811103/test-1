@@ -23,12 +23,9 @@
     force: yes
 
 - name: stop tomcat
+  become: yes
+  become_user: root
   command: "{{ tomcat_bin_path }}/shutdown.sh"
-  async: 100
-  poll: 1
-
-- name: start tomcat
-  command: "{{ tomcat_bin_path }}/startup.sh"
   async: 100
   poll: 1
 
@@ -38,4 +35,14 @@
     host: "{{ groups['wm'][0] }}"
     port: "{{ wm_project_port }}"
     timeout: 30
-  # ignore_errors: True
+  ignore_errors: True
+  register: tomcat_running
+
+- name: start tomcat
+  become: yes
+  become_user: root
+  command: "{{ tomcat_bin_path }}/startup.sh"
+  async: 100
+  poll: 1
+  when: tomcat_running | failed
+
