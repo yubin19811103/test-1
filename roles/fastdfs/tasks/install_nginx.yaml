@@ -9,7 +9,8 @@
   run_once: true
   register: nginx_tracker_running
   with_items:
-      - "{{ tracker_server }}"
+    - "{{ tracker_server }}"
+  when: 'role=="all" or role=="tracker"'
 
 - name: check the nginx_storage port is opened
   wait_for:
@@ -21,7 +22,7 @@
   register: nginx_storage_running
   with_items:
       - "{{ storage_server }}"
-  # when: 'role=="all" or role=="storage"'
+  when: 'role=="all" or role=="storage"'
 
 - name: useradd nginx
   become: yes
@@ -104,8 +105,10 @@
   become: yes
   become_user: root
   command: "{{ nginx_path }}/sbin/nginx -c {{ nginx_path }}/conf/nginx_tracker.conf"
+  when: 'role=="all" or role=="tracker"'
 
 - name: start nginx_storage
   become: yes
   become_user: root
   command: "{{ nginx_path }}/sbin/nginx -c {{ nginx_path }}/conf/nginx_storage.conf"
+  when: 'role=="all" or role=="storage"'

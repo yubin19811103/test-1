@@ -12,3 +12,4 @@ backup_time=`date +%Y%m%d-%H:%M:%S`
 
 [python]
 192.168.4.83
+192.168.4.242

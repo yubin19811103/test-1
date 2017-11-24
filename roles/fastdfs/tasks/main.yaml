@@ -3,27 +3,27 @@
 
 - name: check the fdfs_tracker port is opened
   wait_for:
-    host: "{{ item }}"
+    host: "{{ item[0] }}"
     port: "{{ tracker_port }}"
     timeout: 5
   delegate_to: 127.0.0.1
   ignore_errors: True
   run_once: true
   register: fdfs_tracker_running
-  with_items:
-    - "{{ groups.fastdfs }}"
-  when: 'role=="all" or role=="tracker"'
+  with_together:
+    - "{{ groups.fastdfs[0] }}"
+  when: 'role == "all" or role=="tracker"'
 
 - name: check the fdfs_storage port is opened
   wait_for:
-    host: "{{ item }}"
+    host: "{{ item[0] }}"
     port: "{{ storage_port }}"
     timeout: 5
   delegate_to: 127.0.0.1
   ignore_errors: True
   run_once: true
   register: fdfs_storage_running
-  with_items:
+  with_together:
     - "{{ groups.fastdfs }}"
   when: 'role=="all" or role=="storage"'
 

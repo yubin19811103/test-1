@@ -56,6 +56,8 @@
   become: yes
   become_user: root
   wait_for:
-    host: "{{ groups['wm'][0] }}"
+    host: "{{ item[0] }}"
     port: "{{ wm_project_port }}"
     timeout: 30
+  with_together:
+    - "{{ groups['python'] }}"
