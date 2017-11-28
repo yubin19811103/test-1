@@ -1,0 +1,58 @@
+---
+
+- name: yum install package
+  become: yes
+  become_user: root
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+      - "{{ yum_list }}"
+
+- name: useradd zabbix
+  become: yes
+  become_user: root
+  user:
+    name: zabbix
+    shell: /sbin/nologin
+
+- name: copy zabbix_agent to Target machine
+  copy: 
+    src: zabbix-3.2.8.tar.gz
+    dest: /tmp/zabbix-3.2.8.tar.gz
+
+- name: Unarchive zabbix-3.2.8.tar.gz
+  unarchive:
+    src: /tmp/zabbix-3.2.8.tar.gz
+    dest: /tmp/
+    remote_src: True
+
+- name: creat zabbix_agentd dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ zabbix_agentd_path }}"
+    state: directory
+    mode: 0755
+    
+- name: configure zabbix_agentd
+  become: yes
+  become_user: root
+  command: "/tmp/zabbix-3.2.8/configure --prefix={{ zabbix_agentd_path }} --enable-agent  --enable-agentd" 
+  args:
+    chdir: /tmp/zabbix-3.2.8
+
+- name: make zabbix_agentd
+  become: yes
+  become_user: root
+  shell: make && make install
+  args:
+    chdir: /tmp/zabbix-3.2.8
+
+- name: Add system service
+  become: yes
+  become_user: root
+  copy:
+    src: zabbix_agentd
+    dest: /etc/init.d/
+    mode: 0755

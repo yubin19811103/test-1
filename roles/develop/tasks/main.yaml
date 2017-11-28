@@ -39,7 +39,7 @@
   become: yes
   become_user: root
   file:
-    dest: "{{ wm_project_path }}/{{ wm_project }}/lib"
+    dest: "{{ wm_project_path }}/{{ wm_project }}"
     state: absent
   when: 'wm_project != "weather-web.war"'
 
@@ -57,7 +57,16 @@
     chdir: "{{ wm_project_path }}/{{ wm_project }}/bin/"
   async: 30
   poll: 1
-  when: 'wm_project != "weather-web.war" and wm_project != "weather-python"'
+  when: 'wm_project != "weather-web.war" and wm_project != "weather-python" and wm_project != "weather-api"'
+
+# api重启
+- name: restart {{ wm_project }}
+  shell: /bin/bash app.sh restart
+  args:
+    chdir: "{{ wm_project_path }}/{{ wm_project }}"
+  async: 30
+  poll: 1
+  when: 'wm_project == "weather-api"'
 
 # weather-python root启动
 - name: restart root {{ wm_project }}

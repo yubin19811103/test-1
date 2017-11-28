@@ -26,7 +26,7 @@
 # 删除老的lib
 - name: delete weather-api lib
   file:
-    dest: "{{ wm_project_path }}/{{ wm_project }}/lib"
+    dest: "{{ wm_project_path }}/{{ wm_project }}"
     state: absent
 
 # 解压到远端服务器
@@ -37,9 +37,9 @@
 
 # 重启服务
 - name: restart weather-api
-  shell: /bin/bash start.sh
+  shell: /bin/bash app.sh restart
   args:
-    chdir: "{{ wm_project_path }}/{{ wm_project }}/bin/"
+    chdir: "{{ wm_project_path }}/{{ wm_project }}"
   async: 60
   poll: 1
 

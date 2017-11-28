@@ -1,6 +1,6 @@
 [tomcat]
-192.168.4.231
-192.168.4.221
+192.168.4.48
+192.168.4.49
 
 [tomcat:vars]
 ansible_ssh_user=waming

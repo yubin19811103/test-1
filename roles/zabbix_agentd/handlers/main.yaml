@@ -1,18 +1,6 @@
 ---
 
-- name: restart nginx
+- name: restart zabbix_agentd
   become: yes
   become_user: root
-  #command: systemctl status nginx.service  
-  service:
-    name: nginx
-    state: restarted
-    pattern: nginx
-
-- name: reload nginx
-  become: yes
-  become_user: root
-  service:
-    name: nginx
-    state: reloaded
-    pattern: nginx
+  command: /etc/init.d/zabbix_agentd restart

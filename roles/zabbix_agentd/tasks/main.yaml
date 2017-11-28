@@ -2,79 +2,28 @@
 
 - name: check the service port is opened
   wait_for:
-    host: "{{ groups['wm'][0] }}"
-    port: "{{ nginx_port }}"
+    host: "{{ groups.wm[0] }}"
+    port: 10050
     timeout: 5
   delegate_to: 127.0.0.1
-  ignore_errors: True
+  register: zabbix_agent_runing
+  ignore_errors: true
   run_once: true
-  register: zabbix_agentd_running
 
-- name: yum install package
-  become: yes
-  become_user: root
-  yum:
-    name: "{{ item }}"
-    state: latest
-  with_items: 
-      - "{{ yum_list }}"
+- name: install zabbix_agent
+  include: "install.zabbix_agent.yaml"
+  when: zabbix_agent_runing | failed
 
-- name: useradd zabbix
-  become: yes
-  become_user: root
-  user:
-    name: zabbix
-    shell: /sbin/nologin
-
-- name: copy nginx.tar.gz to client
-  copy: 
-    src: nginx-1.10.3.tar.gz 
-    dest: /tmp/nginx-1.10.3.tar.gz
-
-- name: Unarchive nginx
-  unarchive:
-    src: /tmp/nginx-1.10.3.tar.gz
-    dest: /tmp/
-    remote_src: True
-
-- name: configure nginx
-  become: yes
-  become_user: root
-  command: "./configure --prefix={{ nginx_path }} --user=nginx --group=nginx --with-http_stub_status_module --with-http_ssl_module --with-pcre" 
-  args:
-    chdir: /tmp/nginx-1.10.3/
-
-- name: make nginx
-  become: yes
-  become_user: root
-  shell: make && make install
-  args:
-    chdir: /tmp/nginx-1.10.3/
-
-- name: create nginx.service file
+- name: create zabbix_agent.conf file
   become: yes
   become_user: root
   template:
-    src: nginx.service.j2
-    dest: /lib/systemd/system/nginx.service
+    src: zabbix_agentd.conf.j2
+    dest: "{{ zabbix_agentd_path }}/etc/zabbix_agentd.conf"
     mode: 0745
     backup: yes
-
-- name: Add system service
-  become: yes
-  become_user: root
-  command: systemctl enable nginx.service
-
-- name: create nginx config file
-  template:
-    src: nginx.conf.j2
-    dest: "{{ nginx_path }}/conf/nginx.conf"
-    backup: yes
   notify:
-    - restart nginx
+    - restart zabbix_agentd                      
 
-- name: start nginx
-  become: yes
-  become_user: root
-  command: systemctl start nginx.service
-  when: nginx_running | failed
+
+
