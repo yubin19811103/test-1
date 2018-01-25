@@ -28,3 +28,15 @@
 - name: install wm-test-wmdcm
   include: "wm_test_wmdcm.yaml"
   when: '"wmdcm-db.jar" in wm_project'
+
+- name: install wm-test-core
+  include: "wm_test_core.yaml"
+  when: 'wm_project == "weather-main"'
+
+- name: install wm-test-weather-web
+  include: "wm_test-weather-web.yaml"
+  when: 'wm_project == "weather-web"'
+
+- name: install wm-test-app
+  include: "wm_test_app.yaml"
+  when: 'wm_project == "wechat01.war"'

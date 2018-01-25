@@ -1,6 +1,12 @@
-[wm]
-192.168.4.221 replication=master
-
+[wm:children]
+saas
+develop
+jining
+kaifakongzhi
 
 [wm:vars]
 ansible_ssh_user=waming
+
+[kafakongzhi]
+192.168.2.43
+192.168.4.242

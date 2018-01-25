@@ -1,5 +1,5 @@
 [wmdcm]
-192.168.5.247
+192.168.5.79
 
 [wmdcm:vars]
 ansible_ssh_user=waming

@@ -1,5 +1,5 @@
 [wm]
-192.168.4.48
+192.168.5.65
 
 [wm:vars]
 ansible_ssh_user=waming

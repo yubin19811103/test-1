@@ -7,6 +7,7 @@
   yum:
     name: mariadb-libs
     state: absent
+  ignore_errors: True
 
 - name: copy mysql_rpm to client
   copy:

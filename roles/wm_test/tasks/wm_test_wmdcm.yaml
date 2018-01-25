@@ -68,6 +68,6 @@
   wait_for:
     host: "{{ groups['wmdcm'][0] }}"
     port: "{{ item }}"
-    timeout: 30
+    timeout: 60
   with_items:
     - "{{ wm_project_port }}"

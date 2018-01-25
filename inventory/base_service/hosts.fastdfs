@@ -1,14 +1,14 @@
 [fastdfs]
-192.168.4.48 role=all
-192.168.4.49 role=storage
+192.168.5.79 role=all
+#192.168.5.49 role=storage
 
 [fastdfs:vars]
 ansible_ssh_user=waming
-tracker_server=["192.168.4.48"]
+tracker_server=["192.168.5.79"]
 tracker_port=22122
 tracker_http_server_port=80
 
-storage_server=["192.168.4.48","192.168.4.49"]
+storage_server=["192.168.5.79"]
 storage_port=23000
 storage_path=/u01/fastdfs
 storage_http_server_port=9999

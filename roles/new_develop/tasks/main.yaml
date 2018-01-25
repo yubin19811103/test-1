@@ -32,3 +32,7 @@
 - name: install wm-wmdcm
   include: "wm_wmdcm.yaml"
   when: '"wmdcm-db.jar" in wm_project'
+
+- name: install weather-web
+  include: "wm_weather-web.yaml"
+  when: 'wm_project == "weather-web"'

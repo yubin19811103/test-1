@@ -1,0 +1,16 @@
+[wm:children]
+core
+
+[wm:vars]
+ansible_ssh_user=waming
+wm_package=weather-main-package.zip
+wm_package_path=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-test-core/weather-main/target
+wm_project=weather-main
+wm_project_path=/app/service
+wm_project_port=8081
+backup_time=`date +%Y%m%d-%H:%M:%S`
+core_ip=["192.168.5.65", "192.168.5.222"]
+
+[core]
+192.168.5.65
+192.168.5.222

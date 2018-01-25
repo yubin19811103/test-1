@@ -1,8 +1,12 @@
 [wm]
-192.168.4.49
+192.168.5.65
+192.168.5.66
+192.168.5.247
+192.168.5.108
+192.168.5.95
 
 [wm:vars]
 ansible_ssh_user=waming
-zabbix_server_ip=192.168.4.49
+zabbix_server_ip=192.168.5.98
 yum_list=["gcc", "make"]
 zabbix_agentd_path=/usr/local/zabbix
