@@ -11,7 +11,7 @@
 
 - name: install scheduler
   include: "pro_scheduler.yaml"
-  when: '"job-datawarn" in wm_project'
+  when: '"job-aggregate" in wm_project'
 
 - name: install wmdcm
   include: "pro_wmdcm.yaml"
@@ -36,3 +36,11 @@
 - name: install app
   include: "pro_app.yaml"
   when: 'wm_project == "weather.war" or wm_project == "wechat01.war"'
+
+- name: install core
+  include: "pro_core.yaml"
+  when: 'wm_project == "weather-main"'
+
+- name: install weather-web
+  include: "pro_weather-web.yaml"
+  when: 'wm_project == "weather-web"'

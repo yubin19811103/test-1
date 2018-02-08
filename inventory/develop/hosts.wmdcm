@@ -7,5 +7,5 @@ wm_package=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm
 wm_package_path=["/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-receive-v1/target/","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-analysis/target/","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-db/target/","/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-wmdcm/wmdcm-api/target/"]
 wm_project=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
 wm_project_path=["/opt/wmdcm/wmdcm-receive-v1/target/","/opt/wmdcm/wmdcm-analysis/target/","/opt/wmdcm/wmdcm-db/target/","/opt/wmdcm/wmdcm-api/target/"]
-wm_project_port=['9560','9561','9562','9563']
+wm_project_port=['9560','9561','9562']
 backup_time=`date +%Y%m%d-%H:%M:%S`

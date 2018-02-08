@@ -4,7 +4,7 @@ job-crawler
 [wm:vars]
 ansible_ssh_user=waming
 wm_package=["job-crawler-package.tar.gz"]
-wm_package_path=["/u01/jenkins/workspace/jinshan-scheduler/job-crawler/target"] 
+wm_package_path=["/home/waming/yubin/jinshan"] 
 #console=/home/waming/jenkins-2.60.3-0/apps/jenkins/jenkins_home/workspace/wm-test-scheduler/console/wm-job-console.zip
 
 

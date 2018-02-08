@@ -1,7 +1,7 @@
 [wm]
-192.168.5.66 node_id=1
-192.168.5.222 node_id=2
-192.168.5.247  node_id=3
+10.0.0.8 node_id=1
+10.0.0.14 node_id=2
+10.0.0.17 node_id=3
 
 [wm:vars]
 ansible_ssh_user=waming

@@ -4,7 +4,7 @@
 [wm:vars]
 ansible_ssh_user=waming
 wm_package=weather-warn-package.zip
-wm_package_path=/u01/jenkins/workspace/jinshan-warn/target
+wm_package_path=/home/waming/yubin/jinshan
 wm_project=weather-warn
 wm_project_path=/app/service
 wm_project_port=8084

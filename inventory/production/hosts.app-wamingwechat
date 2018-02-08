@@ -4,7 +4,7 @@
 [wm:vars]
 ansible_ssh_user=root
 wm_package=wechat01.war
-wm_package_path=/u01/jenkins/workspace/jinshan-app-wamingwechat/target
+wm_package_path=/home/waming/yubin/jinshan/app
 wm_project=wechat01.war
 wm_project_path=/usr/local/tomcat/apache-tomcat-7.0.78/webapps
 tomcat_bin_path=/usr/local/tomcat/apache-tomcat-7.0.78/bin

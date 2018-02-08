@@ -5,9 +5,9 @@
 ansible_ssh_user=waming
 wm_package=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
 
-wm_package_path=["/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-receive-v1/target/","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-analysis/target/","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-db/target/","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-api/target/"]
+wm_package_path=["/home/waming/yubin/jinshan/wmdcm", "/home/waming/yubin/jinshan/wmdcm", "/home/waming/yubin/jinshan/wmdcm", "/home/waming/yubin/jinshan/wmdcm"]
 
-wm_package_bin=["/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-receive-v1/bin","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-analysis/bin","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-db/bin","/u01/jenkins/workspace/jinshan-wmdcm/wmdcm-api/bin"]
+wm_package_bin=["/home/waming/yubin/jinshan/wmdcm/wmdcm-receive-v1/bin","/home/waming/yubin/jinshan/wmdcm/wmdcm-analysis/bin","/home/waming/yubin/jinshan/wmdcm/wmdcm-db/bin","/home/waming/yubin/jinshan/wmdcm/wmdcm-api/bin"]
 
 wm_project=["wmdcm-receive-v1.jar", "wmdcm-analysis.jar", "wmdcm-db.jar", "wmdcm-api.jar"]
 

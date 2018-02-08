@@ -37,8 +37,8 @@
     backup: yes
 
 - name: create zoo.cfg file
-  # become: yes
-  # become_user: root
+  become: yes
+  become_user: root
   template:
     src: zoo.cfg.j2
     dest: "{{ zk_path }}/conf/zoo.cfg"

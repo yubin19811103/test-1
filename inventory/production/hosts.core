@@ -1,0 +1,16 @@
+[wm:children]
+core
+
+[wm:vars]
+ansible_ssh_user=waming
+wm_package=weather-main-package.zip
+wm_package_path=/home/waming/yubin/jinshan
+wm_project=weather-main
+wm_project_path=/app/service
+wm_project_port=8081
+backup_time=`date +%Y%m%d-%H:%M:%S`
+core_ip=["10.0.0.11", "10.0.0.12"]
+
+[core]
+10.0.0.11
+10.0.0.12
